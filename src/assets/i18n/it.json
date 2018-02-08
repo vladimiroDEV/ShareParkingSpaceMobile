@@ -5,6 +5,7 @@
   "EMAIL": "Email",
   "USERNAME": "Nome utente",
   "PASSWORD": "Password",
+  "CONFIRMPASSWORD": "Ripeti Password",
   "LOGIN": "Login",
   "SIGNUP": "Registrati",
 
