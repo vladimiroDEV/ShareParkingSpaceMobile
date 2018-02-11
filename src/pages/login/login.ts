@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 import { User } from '../../providers/providers';
 import { MainPage } from '../pages';
 
@@ -15,14 +15,15 @@ export class LoginPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
   account: { email: string, password: string } = {
-    email: '',
-    password: ''
+    email: 'test@mail.it',
+    password: 'Password'
   };
 
   // Our translated text strings
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
+    private _storage:Storage,
     public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService) {
@@ -35,8 +36,14 @@ export class LoginPage {
   // Attempt to login in through our User service
   doLogin() {
     this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-      console.log("login ok");
+      this.user.setToken(resp)
+      this._storage.ready().then(() => {
+      this._storage.set('token', resp)
+      });
+        this.navCtrl.push(MainPage);
+        console.log("login ok");
+      
+     
     }, (err) => {
      // this.navCtrl.push(MainPage);
       // Unable to log in

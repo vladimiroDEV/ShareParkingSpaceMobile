@@ -1,33 +1,20 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 import { Api } from '../api/api';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/fromPromise';
 
-/**
- * Most apps have the concept of a User. This is a simple provider
- * with stubs for login/signup/etc.
- *
- * This User provider makes calls to our API at the `login` and `signup` endpoints.
- *
- * By default, it expects `login` and `signup` to return a JSON object of the shape:
- *
- * ```json
- * {
- *   status: 'success',
- *   user: {
- *     // User fields your app needs, like "id", "name", "email", etc.
- *   }
- * }Ø
- * ```
- *
- * If the `status` field is not `success`, then an error is detected and returned.
- */
+
 @Injectable()
 export class User {
   _user: any;
+  _token:string;
 
-  constructor(public api: Api) { }
+  constructor(public api: Api, private _storage: Storage) { }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -38,8 +25,12 @@ export class User {
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
+      //if (res.status == 'success') {
+        if (res != null && res != '') {
+          this.setToken(res);
+           // this._storage.set('token', res);
+
+       // this._loggedIn(res);
       } else {
       }
     }, err => {
@@ -58,7 +49,7 @@ export class User {
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
+      if (res != null && res != '') {
         this._loggedIn(res);
       }
     }, err => {
@@ -66,6 +57,20 @@ export class User {
     });
 
     return seq;
+  }
+
+  getUserInfo(){
+
+
+        return this.api.get('manageaccount/getuserinfo');
+       
+    
+     
+   
+
+
+    
+    
   }
 
   /**
@@ -81,4 +86,22 @@ export class User {
   _loggedIn(resp) {
     this._user = resp.user;
   }
+
+  /**
+   * Return auth token from promise
+   */
+  private getAuthToken() {
+    return Observable.fromPromise(this._storage.get('token'));
+  }
+
+    setToken(token){
+    this.api._token = token;
+    this._token = token;
+    //  this._storage.ready().then(() => {
+    //    return Observable.of( this._storage.set('token', token))
+    //  });
+   
+  }
+
+
 }
