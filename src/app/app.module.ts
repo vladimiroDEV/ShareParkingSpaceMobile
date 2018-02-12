@@ -14,7 +14,8 @@ import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
-import { HttpInterceptor } from '../providers/api/http.interceptors';
+import { HomePageModule } from '../pages/home/home.module';
+//import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
 // The translate loader needs to know where to load i18n files
@@ -41,11 +42,13 @@ export function provideSettings(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    HomePageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

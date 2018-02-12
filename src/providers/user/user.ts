@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 import { Api } from '../api/api';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
 
@@ -63,14 +63,7 @@ export class User {
 
 
         return this.api.get('manageaccount/getuserinfo');
-       
-    
-     
-   
-
-
-    
-    
+      
   }
 
   /**
@@ -90,16 +83,10 @@ export class User {
   /**
    * Return auth token from promise
    */
-  private getAuthToken() {
-    return Observable.fromPromise(this._storage.get('token'));
-  }
 
     setToken(token){
     this.api._token = token;
     this._token = token;
-    //  this._storage.ready().then(() => {
-    //    return Observable.of( this._storage.set('token', token))
-    //  });
    
   }
 

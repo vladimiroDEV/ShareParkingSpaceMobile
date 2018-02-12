@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { User } from '../../providers/providers';
 import { MainPage } from '../pages';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,7 @@ export class LoginPage {
   // sure to add it to the type
   account: { email: string, password: string } = {
     email: 'test@mail.it',
-    password: 'Password'
+    password: 'password'
   };
 
   // Our translated text strings
@@ -26,6 +27,7 @@ export class LoginPage {
     private _storage:Storage,
     public user: User,
     public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
     public translateService: TranslateService) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
@@ -35,24 +37,31 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
     this.user.login(this.account).subscribe((resp) => {
       this.user.setToken(resp)
       this._storage.ready().then(() => {
-      this._storage.set('token', resp)
+         this._storage.set('token', resp);
+         loading.dismiss();
+         this.navCtrl.push(HomePage);
+        // this.navCtrl.push(MainPage);
       });
-        this.navCtrl.push(MainPage);
-        console.log("login ok");
       
-     
+        console.log("login ok");
+
     }, (err) => {
      // this.navCtrl.push(MainPage);
       // Unable to log in
       console.log("Application error : ");
       console.log(err)
+
+      loading.dismiss();
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,
         duration: 3000,
-        position: 'top'
+        position: 'bottom'
       });
       toast.present();
     });

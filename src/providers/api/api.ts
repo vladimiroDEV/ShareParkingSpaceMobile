@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable,  } from '@angular/core';
  import { Storage } from '@ionic/storage';
- import { Observable } from 'rxjs/Observable';
+ //import { Observable } from 'rxjs/Observable';
 
 
 /**
@@ -9,28 +9,15 @@ import { Injectable,  } from '@angular/core';
  */
 @Injectable()
 export class Api {
-  //url: string = 'http://sahreparkingspaceapi.azurewebsites.net/api';
-  url: string = 'https://localhost:44334/api';
+ url: string = 'https://sahreparkingspaceapi.azurewebsites.net/api';
+  //https://sahreparkingspaceapi.azurewebsites.net/api/AccountApi/login 
+ // url: string = 'https://localhost:44334/api';
   _token:string =''
 
-  // reqOpts = {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer ' + this._token
-  //   }
-  // }
 
   reqOpts = new HttpHeaders();
 
-
-
-  //  headers = new HttpHeaders({
-  //   'Content-Type': 'application/json',
-  //   'Accept': 'application/json',
-  // });
-
-  constructor(public http: HttpClient, private _storage: Storage) {
+  constructor(public http: HttpClient) {
     this.reqOpts.append('Content-Type', 'application/json');
     this.reqOpts.append('Accept', 'application/json');
   }
@@ -59,9 +46,7 @@ export class Api {
 
   post(endpoint: string, body: any, reqOpts?: any) {
     
-
       return this.http.post(this.url + '/' + endpoint, body, {headers:this.getRequestOptions()});
- 
     
   }
 
@@ -84,9 +69,8 @@ export class Api {
       opt=  opt.append('Accept', 'application/json');
     
         if(this._token) {
-       //opt.append('Access-Control-Expose-Headers', 'Authorization');
-        //  reqOpts.append('Authorization','Bearer '+ this._token);
-     opt =  opt.set('Authorization','Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QG1haWwuaXQiLCJqdGkiOiJhNjdjM2FkNy04NTdmLTQzODEtOGJlMi1kNWUwNGZmNWY5OWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjY3OGRmNGU5LTA2YjEtNGZkMy1iNGQ2LTRjNmY3YzdlOTZjYyIsImV4cCI6MTUyMDk2NTUwOSwiaXNzIjoiaHR0cDovL3lvdXJkb21haW4uY29tIiwiYXVkIjoiaHR0cDovL3lvdXJkb21haW4uY29tIn0.VodsbldNmWFiih-9N2P_yodoMWiR2oL32WmU5dEhcLQ');
+        opt =  opt.append('Authorization','Bearer '+ this._token);
+      //opt =  opt.set('Authorization','Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QG1haWwuaXQiLCJqdGkiOiJhNjdjM2FkNy04NTdmLTQzODEtOGJlMi1kNWUwNGZmNWY5OWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjY3OGRmNGU5LTA2YjEtNGZkMy1iNGQ2LTRjNmY3YzdlOTZjYyIsImV4cCI6MTUyMDk2NTUwOSwiaXNzIjoiaHR0cDovL3lvdXJkb21haW4uY29tIiwiYXVkIjoiaHR0cDovL3lvdXJkb21haW4uY29tIn0.VodsbldNmWFiih-9N2P_yodoMWiR2oL32WmU5dEhcLQ');
         
         }
         // console.log("Headers")
@@ -95,9 +79,5 @@ export class Api {
         // console.log(opt.get('Authorization'))
           
      return opt;
-    }
-
-    private getAuthToken():Observable<any> {
-      return Observable.fromPromise(this._storage.get('token'));
     }
 }
