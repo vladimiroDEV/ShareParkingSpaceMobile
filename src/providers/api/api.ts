@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable,  } from '@angular/core';
- import { Storage } from '@ionic/storage';
+ //import { Storage } from '@ionic/storage';
  //import { Observable } from 'rxjs/Observable';
 
 

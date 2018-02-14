@@ -1,8 +1,6 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
-
 import { Api } from '../api/api';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -14,7 +12,7 @@ export class User {
   _user: any;
   _token:string;
 
-  constructor(public api: Api, private _storage: Storage) { }
+  constructor(public api: Api) { }
 
   /**
    * Send a POST request to our login endpoint with the data
