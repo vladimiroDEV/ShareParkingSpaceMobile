@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 
 /**
- * Generated class for the HomePage page.
+ * Generated class for the FindParkingMapPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -11,22 +10,16 @@ import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-find-parking-map',
+  templateUrl: 'find-parking-map.html',
 })
-export class HomePage {
+export class FindParkingMapPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
-  }
-  shareParking() {
-    console.log("shareparking");
-  }
-  goFindParkingPage() {
-    this.navCtrl.push(FindParkingMapPage);
+    console.log('ionViewDidLoad FindParkingMapPage');
   }
 
 }

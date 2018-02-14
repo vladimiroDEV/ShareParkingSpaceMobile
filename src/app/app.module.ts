@@ -15,6 +15,7 @@ import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 import { HomePageModule } from '../pages/home/home.module';
+import { FindParkingMapPageModule } from '../pages/find-parking-map/find-parking-map.module';
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -49,6 +50,7 @@ export function provideSettings(storage: Storage) {
     BrowserModule,
     HttpClientModule,
     HomePageModule,
+    FindParkingMapPageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
