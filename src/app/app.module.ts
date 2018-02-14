@@ -16,6 +16,7 @@ import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 import { HomePageModule } from '../pages/home/home.module';
 import { FindParkingMapPageModule } from '../pages/find-parking-map/find-parking-map.module';
+import { Geolocation } from '@ionic-native/geolocation';
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -72,6 +73,7 @@ export function provideSettings(storage: Storage) {
     Camera,
     SplashScreen,
     StatusBar,
+    Geolocation,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },

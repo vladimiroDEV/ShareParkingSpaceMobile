@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the HomePage page.
@@ -16,7 +17,10 @@ import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      private geolocation: Geolocation) {
   }
 
   ionViewDidLoad() {
@@ -24,7 +28,17 @@ export class HomePage {
   }
   shareParking() {
     console.log("shareparking");
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+      // resp.coords.latitude
+      // resp.coords.longitude
+      console.log("lat " +resp.coords.latitude)
+      console.log("long " +resp.coords.longitude)
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
   }
+
   goFindParkingPage() {
     this.navCtrl.push(FindParkingMapPage);
   }
