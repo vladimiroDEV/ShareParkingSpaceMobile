@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -19,6 +19,7 @@ export class HomePage {
 
   constructor(
       public navCtrl: NavController, 
+      public _menuCtrl: MenuController,
       public navParams: NavParams,
       private geolocation: Geolocation) {
   }
@@ -41,6 +42,10 @@ export class HomePage {
 
   goFindParkingPage() {
     this.navCtrl.push(FindParkingMapPage);
+  }
+
+  onOpenMenu() {
+    this._menuCtrl.open();
   }
 
 }

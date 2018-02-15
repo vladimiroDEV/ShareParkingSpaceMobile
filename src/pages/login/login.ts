@@ -46,7 +46,7 @@ export class LoginPage {
          this._storage.set('token', resp);
          loading.dismiss();
          this.navCtrl.push(HomePage);
-        // this.navCtrl.push(MainPage);
+         //this.navCtrl.push(MainPage);
       });
       
         console.log("login ok");
