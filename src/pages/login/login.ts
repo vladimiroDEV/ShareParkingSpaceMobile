@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { User } from '../../providers/providers';
 //import { MainPage } from '../pages';
@@ -12,6 +12,8 @@ import { HomePage } from '../home/home';
   templateUrl: 'login.html'
 })
 export class LoginPage {
+
+  private _loading :Loading;
   // The account fields for the login form.
   // If you're using the username field with or without email, make
   // sure to add it to the type
@@ -37,14 +39,16 @@ export class LoginPage {
 
   // Attempt to login in through our User service
   doLogin() {
-    let loading = this.loadingCtrl.create({
+    this._loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
+    this._loading.present();
+
     this.user.login(this.account).subscribe((resp) => {
       this.user.setToken(resp)
       this._storage.ready().then(() => {
          this._storage.set('token', resp);
-         loading.dismiss();
+         this._loading.dismiss();
          this.navCtrl.push(HomePage);
          //this.navCtrl.push(MainPage);
       });
@@ -57,7 +61,7 @@ export class LoginPage {
       console.log("Application error : ");
       console.log(err)
 
-      loading.dismiss();
+      this._loading.dismiss();
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,
         duration: 3000,
