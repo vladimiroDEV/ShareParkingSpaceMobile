@@ -15,4 +15,30 @@
 
 <ion-content padding>
 
+    <form (submit)="doSignup()">
+        <ion-list>
+    
+         
+    
+          <ion-item>
+            <ion-label fixed>{{ 'DISPLAYNAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="user.displayName" name="displayName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="user.name" name="name"></ion-input>
+          </ion-item>
+    
+          <ion-item>
+            <ion-label fixed>{{ 'SURNAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="user.surname" name="surname"></ion-input>
+          </ion-item>
+    
+          <div padding>
+            <button ion-button color="primary" block>{{ 'SAVE' | translate }}</button>
+          </div>
+    
+        </ion-list>
+      </form>
+
 </ion-content>

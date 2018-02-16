@@ -2,16 +2,19 @@
   "BACK_BUTTON_TEXT": "Indietro",
 
   "NAME": "Nome",
+  "SURNAME": "Cognome",
   "EMAIL": "Email",
   "USERNAME": "Nome utente",
   "PASSWORD": "Password",
   "CONFIRMPASSWORD": "Ripeti Password",
   "LOGIN": "Login",
   "SIGNUP": "Registrati",
+  "DISPLAYNAME": "Display Name",
 
-  "TAB1_TITLE": "Elenco",
-  "TAB2_TITLE": "Ricerca",
-  "TAB3_TITLE": "Impostazioni",
+
+  "SAVE": "Salva",
+
+
 
   "MAP_TITLE": "Mappa",
 
@@ -31,11 +34,7 @@
 
   "WELCOME_INTRO": "Il punto di partenza per la tua prossima applicazione Ionic",
 
-  "SETTINGS_TITLE": "Impostazioni",
-  "SETTINGS_OPTION1": "Opzione 1",
-  "SETTINGS_OPTION2": "Opzione 2",
-  "SETTINGS_OPTION3": "Opzione 3",
-  "SETTINGS_OPTION4": "Opzione 4",
+
 
   "SETTINGS_PROFILE_BUTTON": "Modifica Profilo",
 

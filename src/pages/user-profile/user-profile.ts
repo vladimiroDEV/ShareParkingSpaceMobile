@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController, ToastController, NavParams } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../providers/providers';
+
 
 /**
  * Generated class for the UserProfilePage page.
@@ -14,12 +17,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'user-profile.html',
 })
 export class UserProfilePage {
+  private signupErrorString: string;
+  constructor(
+    public navCtrl: NavController, 
+    public navParam: NavParams,
+    public user: User,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public translateService: TranslateService) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+      this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
+        this.signupErrorString = value;
+      })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserProfilePage');
+  }
+
+  doSignup(){
+
   }
 
 }
