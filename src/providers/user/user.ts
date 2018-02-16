@@ -5,14 +5,19 @@ import { Api } from '../api/api';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
+import { UserProfile } from '../../models/UserProfile';
 
 
 @Injectable()
 export class User {
-  _user: any;
+   
+  _userProfile: UserProfile;
   _token:string;
 
-  constructor(public api: Api) { }
+  constructor(public api: Api) {
+    this._userProfile = new UserProfile(); 
+   
+  }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -48,7 +53,7 @@ export class User {
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
       if (res != null && res != '') {
-        this._loggedIn(res);
+       // this._loggedIn(res);
       }
     }, err => {
       console.error('ERROR', err);
@@ -58,25 +63,29 @@ export class User {
   }
 
   getUserInfo(){
-
-
         return this.api.get('manageaccount/getuserinfo');
-      
+  }
+
+  updateUserInfo(userProf:UserProfile) {
+      return this.api.post('ManageAccount/UpdateUserProfile',{ 
+          "DisplayName":userProf.displayName, 
+          "Name":userProf.name, 
+          "Surname":userProf.surname } )
   }
 
   /**
    * Log the user out, which forgets the session
    */
   logout() {
-    this._user = null;
+    //this._user = null;
   }
 
   /**
    * Process a login/signup response to store user data
    */
-  _loggedIn(resp) {
-    this._user = resp.user;
-  }
+  // _loggedIn(resp) {
+  //   this._user = resp.user;
+  // }
 
   /**
    * Return auth token from promise
@@ -86,6 +95,11 @@ export class User {
     this.api._token = token;
     this._token = token;
    
+  }
+
+  setUserProfiile(userProfile: UserProfile) {
+    this._userProfile = userProfile;
+
   }
 
 
