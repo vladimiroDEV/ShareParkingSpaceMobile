@@ -2,25 +2,21 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController, Loading } from 'ionic-angular';
 import { User } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
-import { UserAuto } from '../../models/UserProfile';
+import { UserProfile } from '../../models/UserProfile';
 
-/**
- * Generated class for the UserAutoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
-  selector: 'page-user-auto',
-  templateUrl: 'user-auto.html',
+  selector: 'page-credit',
+  templateUrl: 'credit.html',
 })
-export class UserAutoPage {
+export class CreditPage {
+
+  refillModel:number = 0;
+  _user = new UserProfile();
   private signupErrorString: string;
   private updateSuccesse: string;
   private _loading :Loading;
-  auto = new UserAuto();
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,23 +27,21 @@ export class UserAutoPage {
       this.translateService.get('ERROR_GENERIC').subscribe((value) => {
         this.signupErrorString = value;
       })
-      this.translateService.get('UPDATE_SECCESS').subscribe((value) => {
+      this.translateService.get('REFILL_SECCESS').subscribe((value) => {
         this.updateSuccesse = value;
       })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UserAutoPage');
-    console.log(this._userserv._userProfile);
-    this.auto = this._userserv._userProfile.auto;
+    this._user = this._userserv._userProfile;
   }
 
-  doUpdateUserAuto() {
+  doRefillCredit() {
     this._loading= this.loadingCtrl.create({
       content: '',
     });
     this._loading.present();
-    this._userserv.updateUserAuto( this.auto).subscribe((res)=>{
+    this._userserv.refillCredit(this.refillModel).subscribe((res)=>{
      this._loading.dismiss();
      //this.navCtrl.setRoot(HomePage);
      let toast = this.toastCtrl.create({
@@ -56,6 +50,8 @@ export class UserAutoPage {
       position: 'middle'
     });
     toast.present();
+    let currentCredit = +this._userserv._userProfile.credits;
+    this._userserv._userProfile.credits = +currentCredit + (+this.refillModel);
 
     },(err)=>{
       this._loading.dismiss();

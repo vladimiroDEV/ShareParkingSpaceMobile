@@ -77,6 +77,10 @@ export class User {
     return this.api.post('Manageaccount/UpdateAutoInfo',JSON.stringify(auto) )
   }
 
+  refillCredit(credit:number) {
+    return this.api.post('manageaccount/UpdateUserCredit',{  "Credit":credit, "Action":1 } )
+  }
+
   /**
    * Log the user out, which forgets the session
    */

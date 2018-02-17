@@ -18,6 +18,7 @@ export class MyApp {
   pages: any[] = [
     { title: 'Profilo', component: 'UserProfilePage' },
     { title: 'Auto', component: 'UserAutoPage' },
+    { title: 'Credit', component: 'CreditPage' },
     { title: 'Settings', component: 'SettingsPage' },
     { title: 'Logout', component: 'LogoutPage' },
 

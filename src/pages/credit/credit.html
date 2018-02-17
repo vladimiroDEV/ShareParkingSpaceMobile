@@ -1,0 +1,33 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Credito</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-content padding>
+
+      <p> Il tuo credito € {{_user.credits}}</p>
+        <form (submit)="doRefillCredit()">
+            <ion-list>
+        
+             
+        
+              <ion-item>
+                <ion-label fixed>{{ 'REFILL_BTN' | translate }}</ion-label>
+                <ion-input type="number" [(ngModel)]="refillModel" name="refillModel"></ion-input>
+              </ion-item>
+        
+              <div padding>
+                <button ion-button color="primary" block>{{ 'REFILL_BTN' | translate }}</button>
+              </div>
+        
+            </ion-list>
+          </form>
+    
+
+</ion-content>

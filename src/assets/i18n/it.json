@@ -14,13 +14,16 @@
 
   "SAVE": "Salva",
 
-  "UPDATE_SECCESSE": "Profilo utente è atato aggiornato con successo",
+  "UPDATE_SECCESS": "Profilo utente è atato aggiornato con successo",
    "ERROR_GENERIC": "Si è verificato un errore",
 
    "AUTO_PLATE": "Targa",
    "AUTO_BREND": "Marca",
    "AUTO_MODEL": "Modello",
    "AUTO_COLOR": "Colore",
+   
+   "REFILL_BTN":"Ricarica",
+   "REFILL_SECCESS": "La ricarica è andata a buon fine",
 
   "MAP_TITLE": "Mappa",
 

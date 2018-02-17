@@ -39,7 +39,7 @@ export class UserProfilePage {
       this.translateService.get('ERROR_GENERIC').subscribe((value) => {
         this.signupErrorString = value;
       })
-      this.translateService.get('UPDATE_SECCESSE').subscribe((value) => {
+      this.translateService.get('UPDATE_SECCESS').subscribe((value) => {
         this.updateSuccesse = value;
       })
   }
