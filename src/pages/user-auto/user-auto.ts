@@ -20,14 +20,6 @@ export class UserAutoPage {
   private signupErrorString: string;
   private updateSuccesse: string;
   private _loading :Loading;
-
-  //  auto:{plate:string, brend:string, model:string,color:string}={
-  //    plate:'',
-  //    brend:'',
-  //    model:'',
-  //    color:''
-  //  }
-
   auto = new UserAuto();
   constructor(
     public navCtrl: NavController,
@@ -48,11 +40,6 @@ export class UserAutoPage {
     console.log('ionViewDidLoad UserAutoPage');
     console.log(this._userserv._userProfile);
     this.auto = this._userserv._userProfile.auto;
-
-  //  this.auto.numberPlate =this._userserv._userProfile.auto.numberPlate;
-  //  this.auto.carBrend =this._userserv._userProfile.auto.carBrend;
-  //  this.auto.carModel =this._userserv._userProfile.auto.carModel;
-  //  this.auto.carColor =this._userserv._userProfile.auto.carColor;
   }
 
   doUpdateUserAuto() {
@@ -60,12 +47,6 @@ export class UserAutoPage {
       content: '',
     });
     this._loading.present();
-
-    // let userAuto = new UserAuto;
-    // userAuto = this.auto
-    // userAuto.displayName = this.user.displayName;
-    // userInfo.name = this.user.name;
-    // userInfo.surname =  this.user.surname;
     this._userserv.updateUserAuto( this.auto).subscribe((res)=>{
      this._loading.dismiss();
      //this.navCtrl.setRoot(HomePage);
