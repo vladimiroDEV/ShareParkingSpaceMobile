@@ -20,6 +20,7 @@ import { HomePage } from '../home/home';
 })
 export class UserProfilePage {
   private signupErrorString: string;
+  private updateSuccesse: string;
 
   user:{displayName:string,name:string, surname:string} = {
     displayName:'',
@@ -35,8 +36,11 @@ export class UserProfilePage {
     public toastCtrl: ToastController,
     public translateService: TranslateService) {
 
-      this.translateService.get('SIGNUP_ERROR').subscribe((value) => {
+      this.translateService.get('ERROR_GENERIC').subscribe((value) => {
         this.signupErrorString = value;
+      })
+      this.translateService.get('UPDATE_SECCESSE').subscribe((value) => {
+        this.updateSuccesse = value;
       })
   }
 
@@ -47,17 +51,12 @@ export class UserProfilePage {
    this.user.displayName =this._userserv._userProfile.displayName;
    this.user.name = this._userserv._userProfile.name;
    this.user.surname  =this._userserv._userProfile.surname;
-    console.log('ionViewDidLoad UserProfilePage');
+   
   }
 
   doUpdateUserProfile(){
     this._loading= this.loadingCtrl.create({
-      spinner: 'hide',
-      content: `
-        <div class="custom-spinner-container">
-          <div class="custom-spinner-box"></div>
-        </div>`,
-
+      content: '',
     });
     this._loading.present();
 
@@ -67,14 +66,20 @@ export class UserProfilePage {
     userInfo.surname =  this.user.surname;
     this._userserv.updateUserInfo( userInfo).subscribe((res)=>{
      this._loading.dismiss();
-     this.navCtrl.setRoot(HomePage);
+     //this.navCtrl.setRoot(HomePage);
+     let toast = this.toastCtrl.create({
+      message: this.updateSuccesse,
+      duration: 3000,
+      position: 'middle'
+    });
+    toast.present();
 
     },(err)=>{
       this._loading.dismiss();
       let toast = this.toastCtrl.create({
         message: this.signupErrorString,
         duration: 3000,
-        position: 'top'
+        position: 'middle'
       });
       toast.present();
     })   

@@ -14,7 +14,13 @@
 
   "SAVE": "Salva",
 
+  "UPDATE_SECCESSE": "Profilo utente è atato aggiornato con successo",
+   "ERROR_GENERIC": "Si è verificato un errore",
 
+   "AUTO_PLATE": "Targa",
+   "AUTO_BREND": "Marca",
+   "AUTO_MODEL": "Modello",
+   "AUTO_COLOR": "Colore",
 
   "MAP_TITLE": "Mappa",
 

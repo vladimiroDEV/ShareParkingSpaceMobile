@@ -5,7 +5,7 @@ import { Api } from '../api/api';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
-import { UserProfile } from '../../models/UserProfile';
+import { UserProfile, UserAuto } from '../../models/UserProfile';
 
 
 @Injectable()
@@ -71,6 +71,10 @@ export class User {
           "DisplayName":userProf.displayName, 
           "Name":userProf.name, 
           "Surname":userProf.surname } )
+  }
+
+  updateUserAuto(auto: UserAuto) {
+    return this.api.post('Manageaccount/UpdateAutoInfo',JSON.stringify(auto) )
   }
 
   /**

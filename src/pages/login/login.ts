@@ -40,7 +40,7 @@ export class LoginPage {
   // Attempt to login in through our User service
   doLogin() {
     this._loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      content: ''
     });
     this._loading.present();
 
