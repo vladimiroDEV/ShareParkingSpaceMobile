@@ -43,3 +43,18 @@ export class Coordinates {
    }
 
 }
+
+export class ParkingInfoVM {
+    auto:UserAuto;
+    username:string;
+    lat:number;
+    lon:number;
+
+    constructor() {
+        this.auto= new UserAuto();
+        this.username='';
+        this.lon=null;
+        this.lat= null;
+    }
+
+}

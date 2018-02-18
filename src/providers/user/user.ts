@@ -89,6 +89,10 @@ export class User {
     return this.api.get('ParkingSpaces/GetParkingSpaces/'+location);
   }
 
+  GetParkingSpace(parkingId) {
+    return this.api.get('ParkingSpaces/GetParkingSpceInfo/'+parkingId);
+  }
+
   /**
    * Log the user out, which forgets the session
    */

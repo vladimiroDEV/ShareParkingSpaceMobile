@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Loading, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Loading, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import {
@@ -10,14 +10,7 @@ import {
  } from '@ionic-native/google-maps';
 import { User } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
-import { Coordinates } from '../../models/UserProfile';
-
-/**
- * Generated class for the FindParkingMapPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Coordinates, ParkingInfoVM, UserAuto } from '../../models/UserProfile';
 
 @IonicPage()
 @Component({
@@ -34,6 +27,7 @@ export class FindParkingMapPage {
       public navParams: NavParams,
       private _userServ: User,
       public loadingCtrl: LoadingController,
+      private alertCtrl: AlertController,
       public toastCtrl: ToastController,
       public translateService: TranslateService,
       private nativeGeocoder: NativeGeocoder,
@@ -67,12 +61,9 @@ export class FindParkingMapPage {
         // Wait the MAP_READY before using any methods.
         this.map.one(GoogleMapsEvent.MAP_READY)
           .then(() => {
-            console.log('Map is ready!');
-            
-
              coordinates.forEach(coord=>{
               this.map.addMarker({
-                title: 'Ionic',
+                //title: 'Ionic',
                 icon: 'blue',
                 animation: 'DROP',
                 position: {
@@ -83,14 +74,11 @@ export class FindParkingMapPage {
               .then(marker => {
                 marker.on(GoogleMapsEvent.MARKER_CLICK)
                   .subscribe(() => {
-                    alert('clicked');
+                    this.alertShowParkingInfo(coord.id);
                   });
               });
          
              })
-            // Now you can use all methods safely.
-         
-    
           });
       }
 
@@ -120,5 +108,55 @@ export class FindParkingMapPage {
           position: 'middle'
         });
       }
+
+    alertShowParkingInfo(idParking:number) {
+      this._userServ.GetParkingSpace(idParking)
+      .subscribe((res:ParkingInfoVM)=>
+       {
+        this.nativeGeocoder.reverseGeocode(res.lat,res.lon)
+        .then((result: NativeGeocoderReverseResult)=>{
+         let username = res.username;
+         let _auto:UserAuto = res.auto;
+         let _username = res.username;
+         let Indirizzo = result[0].thoroughfare + ' ' + result[0].subThoroughfare;
+       
+        let content:string ="";
+        let alert = this.alertCtrl.create({
+          title: '',
+          message:  '<p>UserName: ' +username+ '</p>'+
+             '<p>Marca: '+_auto.carBrend+'</p>'+
+             '<p>Targa '+ _auto.numberPlate +'</p>'+
+             '<p>Modello ' +_auto.carModel+ '</p>'+
+             ' <p>Colore '+ _auto.carColor+'</p>' + 
+             '<p>Indirizzo '+Indirizzo +'</p>'
+          ,
+          //message: JSON.stringify(res) + JSON.stringify(result),
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Buy',
+              handler: () => {
+                console.log('Buy clicked');
+              }
+            }
+          ]
+        });
+        alert.present();
+      }).catch((error: any) => this.showError());
+       },
+    (err)=>this.showError());
+
+        
+    }
+
+  
+
+    
 
 }
