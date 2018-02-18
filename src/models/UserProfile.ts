@@ -24,5 +24,22 @@ export class UserAuto {
         this.carModel='';
         this.carColor='';
     }
+}
+
+export class Coordinates {
+    autoID:number;
+    id:number;
+    lat:string;
+    long:string;
+    location:string;
+    userId:string;
+   constructor() {
+       this.autoID= null;
+       this.id = null;
+       this.lat= '';
+       this.long='';
+       this.location='';
+       this.userId = '';
+   }
 
 }

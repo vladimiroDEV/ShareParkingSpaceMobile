@@ -81,6 +81,14 @@ export class User {
     return this.api.post('manageaccount/UpdateUserCredit',{  "Credit":credit, "Action":1 } )
   }
 
+  addParkingSpace(lat:number, long:number, location:string){
+    return this.api.post('ParkingSpaces/addParkingSpace',{  "Lat":lat, "Long": long, "Location":location } )
+  }
+
+  GetParkingSpaces(location:string){
+    return this.api.get('ParkingSpaces/GetParkingSpaces/'+location);
+  }
+
   /**
    * Log the user out, which forgets the session
    */

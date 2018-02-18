@@ -90,7 +90,9 @@
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
     </plugin>
     <allow-navigation href="http://10.124.45.56:8100" />
-    <engine name="android" spec="~7.0.0" />
     <allow-navigation href="http://192.168.177.1:8100" />
     <allow-navigation href="http://192.168.1.8:8100" />
+    <plugin name="cordova-plugin-nativegeocoder" spec="^3.0.0" />
+    <engine name="android" spec="7.0.0" />
+    <allow-navigation href="http://192.168.79.1:8100" />
 </widget>

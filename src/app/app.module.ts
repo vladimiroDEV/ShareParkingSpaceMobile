@@ -18,6 +18,7 @@ import { HomePageModule } from '../pages/home/home.module';
 import { FindParkingMapPageModule } from '../pages/find-parking-map/find-parking-map.module';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -75,6 +76,7 @@ export function provideSettings(storage: Storage) {
     SplashScreen,
     StatusBar,
     Geolocation,
+    NativeGeocoder,
     GoogleMaps,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
