@@ -26,6 +26,12 @@ export class UserAuto {
     }
 }
 
+export class UserPosition {
+    lat: number;
+    long: number;
+    location: string;
+}
+
 export class Coordinates {
     autoID:number;
     id:number;
@@ -56,5 +62,7 @@ export class ParkingInfoVM {
         this.lon=null;
         this.lat= null;
     }
+
+
 
 }

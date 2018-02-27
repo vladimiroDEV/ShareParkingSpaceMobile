@@ -19,6 +19,7 @@ import { FindParkingMapPageModule } from '../pages/find-parking-map/find-parking
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { TestPageModule } from '../pages/test/test.module';
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -54,6 +55,7 @@ export function provideSettings(storage: Storage) {
     HttpClientModule,
     HomePageModule,
     FindParkingMapPageModule,
+    TestPageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -6,6 +6,8 @@ import { User } from '../../providers/providers';
 import { UserProfile } from '../../models/UserProfile';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import { TestPage } from '../test/test';
 
 /**
  * Generated class for the HomePage page.
@@ -45,37 +47,51 @@ export class HomePage {
     this._user.getUserInfo().subscribe((res:UserProfile)=>
     {
       console.log(res);
+
       this._user.setUserProfiile(res);
+      this.getUserPosition();
+      console.log('ionViewDidLoad HomePage');
+ 
     },
     (err)=>{
       console.log(err)
-    })
-    console.log('ionViewDidLoad HomePage');
+    });
+    console.log(this._user._userPosition);
+
+    
   }
   shareParking() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude)
-          .then((result: NativeGeocoderReverseResult) => {
-             this._user.addParkingSpace(resp.coords.latitude, resp.coords.longitude, result[0].locality)
-             .subscribe((res)=>{
-              let toast = this.toastCtrl.create({
-                message: this.shareSuccess,
-                duration: 3000,
-                position: 'middle'
-              });
 
-             },
-            (err) =>  this.showError())
-          })
-          .catch((error: any) => this.showError());
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    this.geolocation.getCurrentPosition().then((resp) => {
+        this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude)
+           .then((result: NativeGeocoderReverseResult) => { 
+                 this._user.addParkingSpace(resp.coords.latitude,resp.coords.longitude, result[0].locality)
+                 .subscribe((res)=>{
+                       let toast = this.toastCtrl.create({
+                        message: this.shareSuccess,
+                        duration: 3000,
+                    position: 'middle'
+                    });
+                   },
+                   (shareErr) =>  console.log(shareErr))
+
+           },
+          (geocoderError) =>  console.log(geocoderError))
+        
+        .catch((error: any) => console.log(error));
+   }).catch((error) => {
+     console.log('Error getting location', error);
+   });
   }
 
   goFindParkingPage() {
     this.navCtrl.push(FindParkingMapPage);
   }
+
+  goTestPage() {
+    this.navCtrl.push(TestPage);
+  }
+
 
   onOpenMenu() {
     this._menuCtrl.open();
@@ -87,6 +103,24 @@ export class HomePage {
       duration: 10000,
       position: 'middle'
     });
+  }
+
+  getUserPosition()  {
+    console.log("get current position");
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude)
+          .then((result: NativeGeocoderReverseResult) => {
+            this._user._userPosition.lat= resp.coords.latitude;
+            this._user._userPosition.long= resp.coords.longitude;
+            this._user._userPosition.location= result[0].locality;
+             console.log("locality");
+            console.log(result[0].locality);
+          })
+          .catch((error: any) => this.showError());
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+
   }
 
 }

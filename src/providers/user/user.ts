@@ -5,13 +5,14 @@ import { Api } from '../api/api';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
-import { UserProfile, UserAuto } from '../../models/UserProfile';
+import { UserProfile, UserAuto, UserPosition } from '../../models/UserProfile';
 
 
 @Injectable()
 export class User {
    
   _userProfile: UserProfile;
+  _userPosition: UserPosition; 
   _token:string;
 
   constructor(public api: Api) {
@@ -81,8 +82,12 @@ export class User {
     return this.api.post('manageaccount/UpdateUserCredit',{  "Credit":credit, "Action":1 } )
   }
 
-  addParkingSpace(lat:number, long:number, location:string){
-    return this.api.post('ParkingSpaces/addParkingSpace',{  "Lat":lat, "Long": long, "Location":location } )
+  addParkingSpace(lat:number,lng:number, locality:string){
+
+    return this.api.post('ParkingSpaces/addParkingSpace',{ 
+         "Lat": lat,
+         "Long":lng,
+         "Location":locality} )
   }
 
   GetParkingSpaces(location:string){
