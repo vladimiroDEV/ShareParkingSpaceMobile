@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Loading, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Loading, LoadingController, ToastController, AlertController, Alert } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import {
@@ -13,6 +13,7 @@ import { User } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { Coordinates, ParkingInfoVM, UserAuto } from '../../models/UserProfile';
 import { HubConnection } from '@aspnet/signalr-client';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 @IonicPage()
 @Component({
@@ -22,6 +23,7 @@ import { HubConnection } from '@aspnet/signalr-client';
 export class FindParkingMapPage {
 
   map: GoogleMap;
+  marketInfoAlert: Alert;
   markers:Marker[] = [];
   markersOptions: {}[];
   currentLat: number;
@@ -44,6 +46,7 @@ export class FindParkingMapPage {
       public navCtrl: NavController, 
       public navParams: NavParams,
       private _userServ: User,
+      private launchNavigator: LaunchNavigator,
       public loadingCtrl: LoadingController,
       private alertCtrl: AlertController,
       public toastCtrl: ToastController,
@@ -82,13 +85,17 @@ export class FindParkingMapPage {
 
              console.log(coord);
            this.fillMarker(coord);  
-               
+           this._loading.dismiss(); 
            })
         }); 
    
       }
 
-      getCoordinates(){     
+      getCoordinates(){   
+        this._loading = this.loadingCtrl.create({
+          content: ''
+        });
+        this._loading.present();
         this.geolocation.getCurrentPosition().then((resp) => {
           this.currentLat = resp.coords.latitude;
           this.currentLong =resp.coords.longitude; 
@@ -137,6 +144,8 @@ export class FindParkingMapPage {
         });
         
        }
+
+
       subscribeHubMaps() {
         let connection = new HubConnection('https://sahreparkingspaceapi.azurewebsites.net/ManageParkingHub');
      
@@ -192,20 +201,20 @@ export class FindParkingMapPage {
         this.nativeGeocoder.reverseGeocode(res.lat,res.lon)
         .then((result: NativeGeocoderReverseResult)=>{
          let username = res.username;
-         let _auto:UserAuto = res.auto;
+         let _auto:UserAuto = res.userAuto;
          let Indirizzo = result[0].thoroughfare + ' ' + result[0].subThoroughfare;
          console.log(res);
        
-        let content:string ="";
-        let alert = this.alertCtrl.create({
+        let content:string ="<p>UserName: " +username+ "</p>"+
+        "<p><b>Marca:</b> "+_auto.carBrend+"</p>"+
+        "<p><b>Targa: </b>"+ _auto.numberPlate +"</p>"+
+        "<p><b>Modello: </b> " +_auto.carModel+ "</p>"+
+        "<p><b>Colore: </b>"+ _auto.carColor+"</p>" + 
+        "<p><b>Indirizzo: </b> "+Indirizzo +"</p>";
+       
+        this.marketInfoAlert = this.alertCtrl.create({
           title: '',
-          message:  '<p>UserName: ' +username+ '</p>'+
-             '<p>Marca: '+_auto.carBrend+'</p>'+
-             '<p>Targa '+ _auto.numberPlate +'</p>'+
-             '<p>Modello ' +_auto.carModel+ '</p>'+
-             ' <p>Colore '+ _auto.carColor+'</p>' + 
-             '<p>Indirizzo '+Indirizzo +'</p>'
-          ,
+          message:  content,
           //message: JSON.stringify(res) + JSON.stringify(result),
           buttons: [
             {
@@ -216,19 +225,42 @@ export class FindParkingMapPage {
               }
             },
             {
-              text: 'Buy',
+              text: 'Prenota',
               handler: () => {
-                console.log('Buy clicked');
+                this.reserveParking(res.parkingID, res.userAuto.autoID,res.lat,res.lon);
               }
             }
           ]
         });
-        alert.present();
+        console.log(alert)
+        this.marketInfoAlert.present();
       }).catch((error: any) => this.showError(error));
        },
     (err)=>this.showError(err));
 
         
+    }
+
+    reserveParking(parkingID:number, autoID:number, lat:number, lon:number) {
+
+     
+           this._userServ.ReserveParkingSpace(parkingID, autoID)
+           .subscribe((res)=> 
+            {
+              console.log(res);
+              this.marketInfoAlert.dismiss();
+              this.launchNavigator.navigate([lat,lon])
+                  .then(
+                    success => console.log('Launched navigator'),
+                    error => console.log('Error launching navigator', error)
+                  );
+              
+              
+            },
+          (err)=> 
+          { console.log(err);
+            this.marketInfoAlert.dismiss();
+          })
     }
 
   

@@ -14,11 +14,13 @@ export class UserProfile{
 }
 
 export class UserAuto {
+    autoID:number;
     numberPlate:string;
     carBrend:string;
     carModel:string;
     carColor:string;
     constructor() {
+        this.autoID= null;
         this.numberPlate='';
         this.carBrend='';
         this.carModel='';
@@ -51,13 +53,15 @@ export class Coordinates {
 }
 
 export class ParkingInfoVM {
-    auto:UserAuto;
+    parkingID:number;
+    userAuto:UserAuto;
     username:string;
     lat:number;
     lon:number;
 
     constructor() {
-        this.auto= new UserAuto();
+        this.parkingID = null;
+        this.userAuto= new UserAuto();
         this.username='';
         this.lon=null;
         this.lat= null;

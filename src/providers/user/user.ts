@@ -98,6 +98,13 @@ export class User {
     return this.api.get('ParkingSpaces/GetParkingSpceInfo/'+parkingId);
   }
 
+  ReserveParkingSpace(parkingId:number, autoId:number) {
+    return this.api.post('ParkingSpaces/ReserveParkingSpace', {
+      "parkingID": parkingId,
+      "AutoID": autoId
+    });
+  }
+
   /**
    * Log the user out, which forgets the session
    */

@@ -20,6 +20,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { TestPageModule } from '../pages/test/test.module';
+
+import {LaunchNavigator} from '@ionic-native/launch-navigator'
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -79,6 +81,7 @@ export function provideSettings(storage: Storage) {
     StatusBar,
     Geolocation,
     NativeGeocoder,
+    LaunchNavigator,
     GoogleMaps,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
