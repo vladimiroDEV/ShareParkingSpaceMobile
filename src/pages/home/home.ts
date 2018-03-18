@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ToastController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ToastController, Loading, LoadingController } from 'ionic-angular';
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 import { Geolocation } from '@ionic-native/geolocation';
 import { User } from '../../providers/providers';
@@ -30,6 +30,7 @@ export class HomePage {
       public navCtrl: NavController, 
       public _menuCtrl: MenuController,
       public _user:User,
+      public loadingCtrl: LoadingController,
       public toastCtrl: ToastController,
       public navParams: NavParams,
       private nativeGeocoder: NativeGeocoder,
@@ -61,25 +62,41 @@ export class HomePage {
     
   }
   shareParking() {
+    var loading = this.loadingCtrl.create({
+      content:''
+    });
+
+    loading.present();
+
 
     this.geolocation.getCurrentPosition().then((resp) => {
         this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude)
            .then((result: NativeGeocoderReverseResult) => { 
                  this._user.addParkingSpace(resp.coords.latitude,resp.coords.longitude, result[0].locality)
                  .subscribe((res)=>{
+                   loading.dismiss();
                        let toast = this.toastCtrl.create({
                         message: this.shareSuccess,
                         duration: 3000,
                     position: 'middle'
                     });
+                   toast.present();
                    },
-                   (shareErr) =>  console.log(shareErr))
+                   (shareErr) =>  {
+                    loading.dismiss();
+                    console.log(shareErr)
+                   });
 
            },
-          (geocoderError) =>  console.log(geocoderError))
+          (geocoderError) => {
+             console.log(geocoderError)
+             loading.dismiss()})
         
-        .catch((error: any) => console.log(error));
+        .catch((error: any) => {
+          console.log(error)
+          loading.dismiss()});
    }).catch((error) => {
+    loading.dismiss();
      console.log('Error getting location', error);
    });
   }

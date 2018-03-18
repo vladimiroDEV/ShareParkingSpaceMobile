@@ -13,7 +13,7 @@ import { User } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { Coordinates, ParkingInfoVM, UserAuto } from '../../models/UserProfile';
 import { HubConnection } from '@aspnet/signalr-client';
-import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { LaunchNavigator,  LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 @IonicPage()
 @Component({
@@ -192,6 +192,8 @@ export class FindParkingMapPage {
           duration: 10000,
           position: 'middle'
         });
+
+        toast.present();
       }
 
     alertShowParkingInfo(idParking:number) {
@@ -242,7 +244,11 @@ export class FindParkingMapPage {
     }
 
     reserveParking(parkingID:number, autoID:number, lat:number, lon:number) {
-
+      let options: LaunchNavigatorOptions = {
+        start: 'London, ON',
+        
+      };
+      
      
            this._userServ.ReserveParkingSpace(parkingID, autoID)
            .subscribe((res)=> 
@@ -251,10 +257,13 @@ export class FindParkingMapPage {
               this.marketInfoAlert.dismiss();
               this.launchNavigator.navigate([lat,lon])
                   .then(
-                    success => console.log('Launched navigator'),
+                    success => {
+                      console.log('Launched navigator')
+                    },
                     error => console.log('Error launching navigator', error)
                   );
               
+                  
               
             },
           (err)=> 
