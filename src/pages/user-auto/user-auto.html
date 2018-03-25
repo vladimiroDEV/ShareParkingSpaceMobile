@@ -9,31 +9,31 @@
 
 
 <ion-content padding>
-    <form (submit)="doUpdateUserAuto()">
+    <form (submit)="doUpdateUserAuto()" #form="ngForm">
         <ion-list>
     
          
     
           <ion-item>
             <ion-label fixed>{{ 'AUTO_PLATE' | translate }}</ion-label>
-            <ion-input type="text" [(ngModel)]="auto.numberPlate" name="plate"></ion-input>
+            <ion-input type="text" required [(ngModel)]="auto.numberPlate" name="plate"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label fixed>{{ 'AUTO_BREND' | translate }}</ion-label>
-            <ion-input type="text" [(ngModel)]="auto.carBrend" name="brend"></ion-input>
+            <ion-input type="text" required [(ngModel)]="auto.carBrend" name="brend"></ion-input>
           </ion-item>
     
           <ion-item>
             <ion-label fixed>{{ 'AUTO_MODEL' | translate }}</ion-label>
-            <ion-input type="text" [(ngModel)]="auto.carModel" name="model"></ion-input>
+            <ion-input type="text" required [(ngModel)]="auto.carModel" name="model"></ion-input>
           </ion-item>
           <ion-item>
               <ion-label fixed>{{ 'AUTO_COLOR' | translate }}</ion-label>
-              <ion-input type="text" [(ngModel)]="auto.carColor" name="color"></ion-input>
+              <ion-input type="text" required [(ngModel)]="auto.carColor" name="color"></ion-input>
             </ion-item>
     
           <div padding>
-            <button ion-button color="primary" block>{{ 'SAVE' | translate }}</button>
+            <button ion-button color="primary" block [disabled]="!form.form.valid">{{ 'SAVE' | translate }}</button>
           </div>
     
         </ion-list>

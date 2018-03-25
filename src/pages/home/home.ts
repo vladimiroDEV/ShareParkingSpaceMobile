@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, ToastController, Loading, LoadingController } from 'ionic-angular';
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 import { Geolocation } from '@ionic-native/geolocation';
-import { User } from '../../providers/providers';
+import { User, Api } from '../../providers/providers';
 import { UserProfile } from '../../models/UserProfile';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { TestPage } from '../test/test';
 import { HubConnection } from '@aspnet/signalr-client';
+import { UserAutoPage } from '../user-auto/user-auto';
 
 /**
  * Generated class for the HomePage page.
@@ -36,6 +37,7 @@ export class HomePage {
       public loadingCtrl: LoadingController,
       public toastCtrl: ToastController,
       public navParams: NavParams,
+      public _api:Api,
       private nativeGeocoder: NativeGeocoder,
       public translateService: TranslateService,
       private geolocation: Geolocation) {
@@ -51,10 +53,15 @@ export class HomePage {
     this._user.getUserInfo().subscribe((res:UserProfile)=>
     {
       console.log(res);
+      if(res.auto == null) {
 
+        this.navCtrl.push(UserAutoPage);
+     
+    }
       this._user.setUserProfiile(res);
+     
       this.getUserPosition();
-      this.getMysharedParking();
+      this.getMySharedParking();
  
     },
     (err)=>{
@@ -63,6 +70,19 @@ export class HomePage {
     console.log(this._user._userPosition);
 
     
+  }
+
+  getMySharedParking(){
+
+    this._user.getMySharedParking(this._user._userProfile.userId)
+    .subscribe(res => {
+      this._data = JSON.stringify(res);
+       this.connectParkingHub();
+    },
+  err => {
+
+  })
+
   }
   shareParking() {
     var loading = this.loadingCtrl.create({
@@ -145,16 +165,16 @@ export class HomePage {
 
   }
 
-  getMysharedParking() {
-      let connection = new HubConnection('https://sahreparkingspaceapi.azurewebsites.net/ManageParkingHub');
+  connectParkingHub() {
+      let connection = new HubConnection(this._api.urlParkingHub);
    
       connection.start()
                 .then(() => {   
                      connection.invoke("JoinGroup",  this._user._userProfile.userId);
                      
                     });
-      console.log("test jpin username   " + this._user._userProfile.userId )  ;
-
+      console.log("test Join   username   " + this._user._userProfile.userId )  ;
+     
       connection.on('send', (data) => { 
                       console.log(data);
                       this._data = JSON.stringify(data);
@@ -163,5 +183,7 @@ export class HomePage {
                   
 
     }
+
+   
 
 }

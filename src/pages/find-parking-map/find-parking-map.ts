@@ -9,7 +9,7 @@ import {
   GoogleMapsEvent,
   GoogleMapOptions
  } from '@ionic-native/google-maps';
-import { User } from '../../providers/providers';
+import { User, Api } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { Coordinates, ParkingInfoVM, UserAuto } from '../../models/UserProfile';
 import { HubConnection } from '@aspnet/signalr-client';
@@ -53,6 +53,7 @@ export class FindParkingMapPage {
       public translateService: TranslateService,
       private nativeGeocoder: NativeGeocoder,
       private geolocation: Geolocation,
+      private _api: Api,
       private googleMaps: GoogleMaps) {
         this.translateService.get('ERROR_GENERIC').subscribe((value) => {
           this.genericErrorString = value;
@@ -85,8 +86,9 @@ export class FindParkingMapPage {
 
              console.log(coord);
            this.fillMarker(coord);  
-           this._loading.dismiss(); 
+
            })
+           this._loading.dismiss(); 
         }); 
    
       }
@@ -147,7 +149,7 @@ export class FindParkingMapPage {
 
 
       subscribeHubMaps() {
-        let connection = new HubConnection('https://sahreparkingspaceapi.azurewebsites.net/ManageParkingHub');
+        let connection = new HubConnection(this._api.urlParkingHub);
      
         connection.start()
                   .then(() => {   

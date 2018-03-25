@@ -22,6 +22,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { TestPageModule } from '../pages/test/test.module';
 
 import {LaunchNavigator} from '@ionic-native/launch-navigator'
+import { UserAutoPageModule } from '../pages/user-auto/user-auto.module';
 //import { HttpInterceptor } from '../providers/api/http.interceptors';
 
 
@@ -56,6 +57,7 @@ export function provideSettings(storage: Storage) {
     BrowserModule,
     HttpClientModule,
     HomePageModule,
+    UserAutoPageModule,
     FindParkingMapPageModule,
     TestPageModule,
     TranslateModule.forRoot({

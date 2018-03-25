@@ -14,6 +14,8 @@ export class Api {
  // url: string = 'https://localhost:44334/api';
   _token:string =''
 
+  public  urlParkingHub:string = "https://sahreparkingspaceapi.azurewebsites.net/ManageParkingHub";
+
 
   reqOpts = new HttpHeaders();
 

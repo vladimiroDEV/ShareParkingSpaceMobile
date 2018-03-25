@@ -105,6 +105,10 @@ export class User {
     });
   }
 
+  getMySharedParking(userId:string) {
+    return this.api.get('ParkingSpaces/getMySharedParking/'+userId);
+  }
+
   /**
    * Log the user out, which forgets the session
    */

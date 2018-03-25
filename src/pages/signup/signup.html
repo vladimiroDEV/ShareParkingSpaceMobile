@@ -17,14 +17,15 @@
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
         <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label fixed>{{ 'CONFIRMPASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.confirmPassword" name="confirmPassword"></ion-input>
-      </ion-item>
 
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
         <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>{{ 'CONFIRMPASSWORD' | translate }}</ion-label>
+        <ion-input type="password" [(ngModel)]="account.confirmPassword" name="confirmPassword"></ion-input>
       </ion-item>
 
       <div padding>

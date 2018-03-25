@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController, Loading } from 'ionic-angular';
 import { User } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { UserAuto } from '../../models/UserProfile';
+import { NgForm } from '@angular/forms';
 
 /**
  * Generated class for the UserAutoPage page.
@@ -21,6 +22,7 @@ export class UserAutoPage {
   private updateSuccesse: string;
   private _loading :Loading;
   auto = new UserAuto();
+  @ViewChild('form') public autoForm: NgForm;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -35,11 +37,30 @@ export class UserAutoPage {
         this.updateSuccesse = value;
       })
   }
+  ionViewCanLeave(): boolean{
+    // here we can either return true or false
+    // depending on if we want to leave this view
+    // if(true){
+    //    return true;
+    //  } else {
+    //    return false;
+    //  }
+    if(this.autoForm.form.valid){
+      return true;
+    }else {
+      return false;
+    }
+   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserAutoPage');
     console.log(this._userserv._userProfile);
-    this.auto = this._userserv._userProfile.auto;
+    if(this._userserv._userProfile.auto){
+      this.auto = this._userserv._userProfile.auto;
+    }else{
+         this.auto = new UserAuto();
+    }
+    
   }
 
   doUpdateUserAuto() {
