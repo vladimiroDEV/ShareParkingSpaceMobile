@@ -8,6 +8,7 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResul
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { TestPage } from '../test/test';
+import { HubConnection } from '@aspnet/signalr-client';
 
 /**
  * Generated class for the HomePage page.
@@ -25,6 +26,8 @@ export class HomePage {
   private genericErrorString: string;
   private shareSuccess: string;
   private _loading :Loading;
+
+  public  _data:string = "";
 
   constructor(
       public navCtrl: NavController, 
@@ -51,7 +54,7 @@ export class HomePage {
 
       this._user.setUserProfiile(res);
       this.getUserPosition();
-      console.log('ionViewDidLoad HomePage');
+      this.getMysharedParking();
  
     },
     (err)=>{
@@ -138,6 +141,27 @@ export class HomePage {
        console.log('Error getting location', error);
      });
 
+
+
   }
+
+  getMysharedParking() {
+      let connection = new HubConnection('https://sahreparkingspaceapi.azurewebsites.net/ManageParkingHub');
+   
+      connection.start()
+                .then(() => {   
+                     connection.invoke("JoinGroup",  this._user._userProfile.userId);
+                     
+                    });
+      console.log("test jpin username   " + this._user._userProfile.userId )  ;
+
+      connection.on('send', (data) => { 
+                      console.log(data);
+                      this._data = JSON.stringify(data);
+      }
+      );
+                  
+
+    }
 
 }

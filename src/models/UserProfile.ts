@@ -3,12 +3,16 @@ export class UserProfile{
     name:string;
     surname:string;
     credits:number;
+    email:string;
     auto:UserAuto;
+    userId:string;
     constructor() {
         this.displayName='';
         this.name='';
         this.surname='';
         this.credits = 0;
+        this.email = "";
+        this.userId ="";
         this.auto = new UserAuto();
     }
 }
