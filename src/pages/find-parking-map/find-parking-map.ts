@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Loading, LoadingController, ToastController, AlertController, Alert } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import {
   Marker,
   GoogleMaps,
@@ -13,7 +13,7 @@ import { User, Api } from '../../providers/providers';
 import { TranslateService } from '@ngx-translate/core';
 import { Coordinates, ParkingInfoVM, UserAuto } from '../../models/UserProfile';
 import { HubConnection } from '@aspnet/signalr-client';
-import { LaunchNavigator,  LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 @IonicPage()
 @Component({
@@ -246,12 +246,6 @@ export class FindParkingMapPage {
     }
 
     reserveParking(parkingID:number, autoID:number, lat:number, lon:number) {
-      let options: LaunchNavigatorOptions = {
-        start: 'London, ON',
-        
-      };
-      
-     
            this._userServ.ReserveParkingSpace(parkingID, autoID)
            .subscribe((res)=> 
             {

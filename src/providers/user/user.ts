@@ -113,7 +113,9 @@ export class User {
    * Log the user out, which forgets the session
    */
   logout() {
-    //this._user = null;
+    this._userProfile = null;
+    this._userPosition = null;
+    this._token = "";
   }
 
   /**

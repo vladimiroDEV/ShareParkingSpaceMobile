@@ -3,7 +3,6 @@ import { IonicPage, NavController, LoadingController, ToastController, NavParams
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../providers/providers';
 import { UserProfile } from '../../models/UserProfile';
-import { HomePage } from '../home/home';
 
 
 /**

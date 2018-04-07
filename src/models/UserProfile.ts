@@ -71,6 +71,23 @@ export class ParkingInfoVM {
         this.lat= null;
     }
 
-
-
 }
+
+export class MyParkingVM {
+    userAuto:UserAuto;
+    username:string;
+    lng:number;
+    lat:number;
+    constructor(){
+        this.userAuto = new UserAuto();
+        this.username = "";
+        this.lng = null;
+        this.lat= null;
+
+    }
+}
+
+export class MySharePosition{
+      Citta:string ; 
+       Via:string;
+     }

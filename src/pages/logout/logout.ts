@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
+import { User } from '../../providers/user/user';
+import { WelcomePage } from '../welcome/welcome';
 
 /**
  * Generated class for the LogoutPage page.
@@ -15,11 +17,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LogoutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, private user: User,private loadingCtrl:LoadingController) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LogoutPage');
+    let loading =   this.loadingCtrl.create({
+      content: ''
+    });
+    loading.present();
+    this.user.logout();
+    this.navCtrl.setRoot(WelcomePage);
+
+    loading.dismiss();
+    
   }
 
 }

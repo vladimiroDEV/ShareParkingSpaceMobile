@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, ToastController, Loading, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, ToastController,  LoadingController } from 'ionic-angular';
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 import { Geolocation } from '@ionic-native/geolocation';
 import { User, Api } from '../../providers/providers';
-import { UserProfile } from '../../models/UserProfile';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+import { UserProfile, MyParkingVM, MySharePosition } from '../../models/UserProfile';
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
 import { TestPage } from '../test/test';
 import { HubConnection } from '@aspnet/signalr-client';
 import { UserAutoPage } from '../user-auto/user-auto';
@@ -23,10 +22,16 @@ import { UserAutoPage } from '../user-auto/user-auto';
   selector: 'page-home',
   templateUrl: 'home.html',
 })
+
 export class HomePage {
   private genericErrorString: string;
   private shareSuccess: string;
-  private _loading :Loading;
+  //private  mySharePosition: { };
+  //private MySharePosition ={ Citta:string ;  Via:string};
+  
+
+  private mySharedPosistion:MySharePosition =  new MySharePosition();
+
 
   public  _data:string = "";
 
@@ -75,9 +80,26 @@ export class HomePage {
   getMySharedParking(){
 
     this._user.getMySharedParking(this._user._userProfile.userId)
-    .subscribe(res => {
+    .subscribe((res:MyParkingVM) => {
+      
+   if(res) {
+    this.nativeGeocoder.reverseGeocode(res.lat, res.lng)
+    .then((result: NativeGeocoderReverseResult) => { 
+
+      this.mySharedPosistion.Citta = result[0].locality;
+      this.mySharedPosistion.Via = result[0].thoroughfare + ' ' +result[0].subThoroughfare;
+
+      console.log(result[0])
+    })
+    .catch((error: any) => {
+      console.log(error)
+      });
+
+
       this._data = JSON.stringify(res);
        this.connectParkingHub();
+   }
+    
     },
   err => {
 
@@ -138,11 +160,7 @@ export class HomePage {
   }
 
   showError() {
-    let toast = this.toastCtrl.create({
-      message: this.genericErrorString,
-      duration: 10000,
-      position: 'middle'
-    });
+   
   }
 
   getUserPosition()  {
