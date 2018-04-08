@@ -88,6 +88,19 @@ export class MyParkingVM {
 }
 
 export class MySharePosition{
+      isShared:boolean;
+      username:string;
+      auto:UserAuto;
+      isReserved: boolean;
       Citta:string ; 
        Via:string;
+
+       constructor(){
+           this.Via ="";
+           this.Citta = "";
+           this.isShared = false;
+           this.isReserved = false;
+           this.username="";
+           this.auto = null;
+       }
      }

@@ -109,6 +109,10 @@ export class User {
     return this.api.get('ParkingSpaces/getMySharedParking/'+userId);
   }
 
+  deleteMySharedParking() {
+    return this.api.post('ParkingSpaces/DeleteMySharedParking/', {"userID":this._userProfile.userId});
+  }
+
   /**
    * Log the user out, which forgets the session
    */

@@ -21,26 +21,38 @@
 
 
 <ion-content padding>
-    <button ion-button block (click)="shareParking()">cedi Posto</button>
-    <br>
-        <button ion-button block (click)="goFindParkingPage()">Trova posto</button>
-        
- 
-<br />
-<br />
+    <button *ngIf="!mySharedPosistion.isShared" ion-button block (click)="shareParking()">cedi Posto</button>
 
-<ion-card>
+<ion-card *ngIf="mySharedPosistion.isShared" >
     <ion-card-header>
-     Posizione Condivisa
+       <h2>Posizione Condivisa</h2>
     </ion-card-header>
     <ion-card-content>
-      Citta: {{mySharedPosistion.Citta}}
-      <br />
-      Via: {{mySharedPosistion.Via}}
+      <p>{{mySharedPosistion.Citta}} via: {{mySharedPosistion.Via}} </p>
+      <ion-item padding>
+          <button ion-button color="danger" item-right (click)="deleteMyParking()" icon-start>
+              <ion-icon name='close'></ion-icon>
+              Elimina
+            </button>
+        </ion-item>
+      <br>
+<div *ngIf="mySharedPosistion.isReserved">
+  <h3>Prenotato da <b>{{mySharedPosistion.username}}</b></h3>
+   <p>Auto: {{mySharedPosistion.auto.carBrend}} {{mySharedPosistion.auto.carModel}} </p>
+   <p>Colore: {{mySharedPosistion.auto.carColor}} </p>
+   <p>Targa: {{mySharedPosistion.auto.numberPlate}} </p>
+</div>
 
-      <button>Rimuovi</button>
     </ion-card-content>
+   
   </ion-card>
+
+  <br>
+  <button ion-button block (click)="goFindParkingPage()">Trova posto</button>
+  
+
+<br />
+<br />
 
         <p>
           {{_data}}

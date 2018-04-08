@@ -6,7 +6,6 @@ import { User, Api } from '../../providers/providers';
 import { UserProfile, MyParkingVM, MySharePosition } from '../../models/UserProfile';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import { TranslateService } from '@ngx-translate/core';
-import { TestPage } from '../test/test';
 import { HubConnection } from '@aspnet/signalr-client';
 import { UserAutoPage } from '../user-auto/user-auto';
 
@@ -26,10 +25,7 @@ import { UserAutoPage } from '../user-auto/user-auto';
 export class HomePage {
   private genericErrorString: string;
   private shareSuccess: string;
-  //private  mySharePosition: { };
-  //private MySharePosition ={ Citta:string ;  Via:string};
-  
-
+ 
   private mySharedPosistion:MySharePosition =  new MySharePosition();
 
 
@@ -88,11 +84,20 @@ export class HomePage {
 
       this.mySharedPosistion.Citta = result[0].locality;
       this.mySharedPosistion.Via = result[0].thoroughfare + ' ' +result[0].subThoroughfare;
+      this.mySharedPosistion.isShared = true;
+
+      if(res.username != null && res.username != "" ) {
+       this.mySharedPosistion.isReserved = true;
+       this.mySharedPosistion.auto = res.userAuto;
+       this.mySharedPosistion.username = res.username;
+      }
 
       console.log(result[0])
     })
     .catch((error: any) => {
       console.log(error)
+
+      this.mySharedPosistion = new MySharePosition();
       });
 
 
@@ -102,7 +107,7 @@ export class HomePage {
     
     },
   err => {
-
+     this.mySharedPosistion =  new MySharePosition();
   })
 
   }
@@ -112,8 +117,6 @@ export class HomePage {
     });
 
     loading.present();
-
-
     this.geolocation.getCurrentPosition().then((resp) => {
         this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude)
            .then((result: NativeGeocoderReverseResult) => { 
@@ -126,6 +129,7 @@ export class HomePage {
                     position: 'middle'
                     });
                    toast.present();
+                   this.getMySharedParking();
                    },
                    (shareErr) =>  {
                     loading.dismiss();
@@ -150,10 +154,18 @@ export class HomePage {
     this.navCtrl.push(FindParkingMapPage);
   }
 
-  goTestPage() {
-    this.navCtrl.push(TestPage);
-  }
+  deleteMyParking() {
+    this._user.deleteMySharedParking()
+    .subscribe(res => {
+      //console.log(res);
+      this.getMySharedParking();
 
+    },
+  (err) => {
+     console.log(err);
+  })
+    
+  }
 
   onOpenMenu() {
     this._menuCtrl.open();
@@ -193,7 +205,14 @@ export class HomePage {
                     });
       console.log("test Join   username   " + this._user._userProfile.userId )  ;
      
-      connection.on('send', (data) => { 
+      connection.on('send', (data:MyParkingVM) => { 
+                        
+
+        if(data.username != null && data.username != "") {
+          this.mySharedPosistion.username= data.username;
+          this.mySharedPosistion.auto = data.userAuto;
+          this.mySharedPosistion.isReserved = true;
+        }
                       console.log(data);
                       this._data = JSON.stringify(data);
       }
