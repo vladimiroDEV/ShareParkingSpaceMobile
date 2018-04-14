@@ -31,6 +31,21 @@ export class UserAuto {
         this.carColor='';
     }
 }
+export class UserAutoHub {
+    AutoID:number;
+    NumberPlate:string;
+    CarBrend:string;
+    CarModel:string;
+    CarColor:string;
+    constructor() {
+        this.AutoID= null;
+        this.NumberPlate='';
+        this.CarBrend='';
+        this.CarModel='';
+        this.CarColor='';
+    }
+}
+
 
 export class UserPosition {
     lat: number;
@@ -76,13 +91,26 @@ export class ParkingInfoVM {
 export class MyParkingVM {
     userAuto:UserAuto;
     username:string;
-    lng:number;
+    lng:number
     lat:number;
     constructor(){
         this.userAuto = new UserAuto();
         this.username = "";
         this.lng = null;
         this.lat= null;
+
+    }
+}
+export class MyParkingVMHub {
+    UserAuto:UserAutoHub;
+    Username:string;
+    Lng:number
+    Lat:number;
+    constructor(){
+        this.UserAuto = new UserAutoHub();
+        this.Username = "";
+        this.Lng = null;
+        this.Lat= null;
 
     }
 }

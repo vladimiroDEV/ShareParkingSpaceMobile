@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, MenuController, ToastController,  
 import { FindParkingMapPage } from '../find-parking-map/find-parking-map';
 import { Geolocation } from '@ionic-native/geolocation';
 import { User, Api } from '../../providers/providers';
-import { UserProfile, MyParkingVM, MySharePosition } from '../../models/UserProfile';
+import { UserProfile, MyParkingVM, MySharePosition, MyParkingVMHub, UserAuto } from '../../models/UserProfile';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 import { TranslateService } from '@ngx-translate/core';
 import { HubConnection } from '@aspnet/signalr-client';
@@ -27,6 +27,7 @@ export class HomePage {
   private shareSuccess: string;
  
   private mySharedPosistion:MySharePosition =  new MySharePosition();
+
 
 
   public  _data:string = "";
@@ -205,12 +206,16 @@ export class HomePage {
                     });
       console.log("test Join   username   " + this._user._userProfile.userId )  ;
      
-      connection.on('send', (data:MyParkingVM) => { 
-                        
+      connection.on('send', (data:MyParkingVMHub) => { 
+             
+        if(this.mySharedPosistion.auto == null) this.mySharedPosistion.auto = new UserAuto();
 
-        if(data.username != null && data.username != "") {
-          this.mySharedPosistion.username= data.username;
-          this.mySharedPosistion.auto = data.userAuto;
+        if(data.Username != null && data.Username != "") {
+          this.mySharedPosistion.username= data.Username;
+          this.mySharedPosistion.auto.carBrend = data.UserAuto.CarBrend;
+          this.mySharedPosistion.auto.carColor = data.UserAuto.CarColor;
+          this.mySharedPosistion.auto.carModel = data.UserAuto.CarModel;
+          this.mySharedPosistion.auto.numberPlate = data.UserAuto.NumberPlate;
           this.mySharedPosistion.isReserved = true;
         }
                       console.log(data);
