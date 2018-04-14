@@ -254,7 +254,14 @@ export class FindParkingMapPage {
               this.launchNavigator.navigate([lat,lon])
                   .then(
                     success => {
-                      console.log('Launched navigator')
+                      console.log('Launched navigator');
+                      this._userServ.PaidForParkingSpace(parkingID)
+                      .subscribe(res=> {
+                        console.log("Il pagamento è andato a buon fine");
+                      },
+                    (err)=> {
+                      console.log("s è verificat un errore durante il pagamento")
+                    })
                     },
                     error => console.log('Error launching navigator', error)
                   );

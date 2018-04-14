@@ -25,23 +25,23 @@
 
 <ion-card *ngIf="mySharedPosistion.isShared" >
     <ion-card-header>
-       <h2>Posizione Condivisa</h2>
+       <h1>Posizione Condivisa</h1>
+       <p>{{mySharedPosistion.Citta}} via: {{mySharedPosistion.Via}} </p>
     </ion-card-header>
     <ion-card-content>
-      <p>{{mySharedPosistion.Citta}} via: {{mySharedPosistion.Via}} </p>
-      <ion-item padding>
-          <button ion-button color="danger" item-right (click)="deleteMyParking()" icon-start>
-              <ion-icon name='close'></ion-icon>
-              Elimina
-            </button>
-        </ion-item>
-      <br>
+                <br>
 <div *ngIf="mySharedPosistion.isReserved">
-  <h3>Prenotato da <b>{{mySharedPosistion.username}}</b></h3>
+  <h1>Prenotato da <b>{{mySharedPosistion.username}}</b></h1>
    <p>Auto: {{mySharedPosistion.auto.carBrend}} {{mySharedPosistion.auto.carModel}} </p>
    <p>Colore: {{mySharedPosistion.auto.carColor}} </p>
    <p>Targa: {{mySharedPosistion.auto.numberPlate}} </p>
 </div>
+<ion-item padding>
+    <button ion-button color="danger" item-right (click)="deleteMyParking()" icon-start>
+        <ion-icon name='close'></ion-icon>
+        Elimina
+      </button>
+  </ion-item>
 
     </ion-card-content>
    

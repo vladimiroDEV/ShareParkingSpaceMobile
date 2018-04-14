@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar>
@@ -9,25 +8,31 @@
 
 
 <ion-content padding>
-    <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10 offset-1>
+        <ion-item>
+          <ion-label> Il tuo credito €
+            <ion-badge>{{_user.credits}}</ion-badge>
+          </ion-label>
 
-      <p> Il tuo credito € {{_user.credits}}</p>
+        </ion-item>
         <form (submit)="doRefillCredit()">
-            <ion-list>
-        
-             
-        
-              <ion-item>
-                <ion-label fixed>{{ 'REFILL_BTN' | translate }}</ion-label>
-                <ion-input type="number" [(ngModel)]="refillModel" name="refillModel"></ion-input>
-              </ion-item>
-        
-              <div padding>
-                <button ion-button color="primary" block>{{ 'REFILL_BTN' | translate }}</button>
-              </div>
-        
-            </ion-list>
-          </form>
-    
+          <ion-list>
+            <ion-item>
+              <ion-label fixed>
+                <ion-icon ios="logo-usd" md="logo-usd"></ion-icon> {{ 'REFILL_BTN' | translate }}</ion-label>
+              <ion-input type="number" [(ngModel)]="refillModel" name="refillModel"></ion-input>
+            </ion-item>
 
+            <div padding>
+              <button ion-button color="primary" block>{{ 'REFILL_BTN' | translate }}</button>
+            </div>
+
+          </ion-list>
+        </form>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar>
@@ -8,35 +7,38 @@
 </ion-header>
 
 
-<ion-content padding>
-    <form (submit)="doUpdateUserAuto()" #form="ngForm">
-        <ion-list>
-    
-         
-    
-          <ion-item>
-            <ion-label fixed>{{ 'AUTO_PLATE' | translate }}</ion-label>
-            <ion-input type="text" required [(ngModel)]="auto.numberPlate" name="plate"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label fixed>{{ 'AUTO_BREND' | translate }}</ion-label>
-            <ion-input type="text" required [(ngModel)]="auto.carBrend" name="brend"></ion-input>
-          </ion-item>
-    
-          <ion-item>
-            <ion-label fixed>{{ 'AUTO_MODEL' | translate }}</ion-label>
-            <ion-input type="text" required [(ngModel)]="auto.carModel" name="model"></ion-input>
-          </ion-item>
-          <ion-item>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10 offset-1>
+        <form (submit)="doUpdateUserAuto()" #form="ngForm">
+          <ion-list>
+            <ion-item>
+              <ion-label fixed>{{ 'AUTO_PLATE' | translate }}</ion-label>
+              <ion-input type="text" required [(ngModel)]="auto.numberPlate" name="plate"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>{{ 'AUTO_BREND' | translate }}</ion-label>
+              <ion-input type="text" required [(ngModel)]="auto.carBrend" name="brend"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label fixed>{{ 'AUTO_MODEL' | translate }}</ion-label>
+              <ion-input type="text" required [(ngModel)]="auto.carModel" name="model"></ion-input>
+            </ion-item>
+            <ion-item>
               <ion-label fixed>{{ 'AUTO_COLOR' | translate }}</ion-label>
               <ion-input type="text" required [(ngModel)]="auto.carColor" name="color"></ion-input>
             </ion-item>
-    
-          <div padding>
-            <button ion-button color="primary" block [disabled]="!form.form.valid">{{ 'SAVE' | translate }}</button>
-          </div>
-    
-        </ion-list>
-      </form>
+
+            <div padding>
+              <button ion-button color="primary" block [disabled]="!form.form.valid">{{ 'SAVE' | translate }}</button>
+            </div>
+
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

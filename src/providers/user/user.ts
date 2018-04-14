@@ -104,6 +104,11 @@ export class User {
       "AutoID": autoId
     });
   }
+  PaidForParkingSpace(parkingId) {
+    return this.api.post('ParkingSpaces/PaidForParkingSpace',{
+      'ID':parkingId
+    });
+  }
 
   getMySharedParking(userId:string) {
     return this.api.get('ParkingSpaces/getMySharedParking/'+userId);
