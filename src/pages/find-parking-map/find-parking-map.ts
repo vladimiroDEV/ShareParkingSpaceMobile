@@ -160,26 +160,32 @@ export class FindParkingMapPage {
 
         connection.on('send', (data) => { 
                         console.log(data);
+                       
                         this.map.clear().then(()=>{              
                             data.forEach(coord=>{
                               console.log(coord);
-                            //this.fillMarker(coord); 
-                            this.map.addMarker({
-                              //title: 'Ionic',
-                              icon: 'blue',
-                              animation: 'DROP',
-                              position: {
-                                lat: +coord.Lat,
-                                lng: +coord.Long,
-                              }
+                            //this.fillMarker(coord);
+                            
+                            if(this._userServ._userProfile.userId != data.UserID){
+                              this.map.addMarker({
+                                //title: 'Ionic',
+                                icon: 'blue',
+                                animation: 'DROP',
+                                position: {
+                                  lat: +coord.Lat,
+                                  lng: +coord.Long,
+                                }
+                              
                             }).then(marker => {
                               marker.on(GoogleMapsEvent.MARKER_CLICK)
                                 .subscribe(() => {
                                   this.alertShowParkingInfo(coord.id);
                                 });
-                            });;
+                            });
+                          }
                                 
                             });
+                          
                         }).catch((clearMapError)=>
                         
                         console.log(clearMapError))
