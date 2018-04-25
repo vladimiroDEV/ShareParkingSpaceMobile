@@ -179,7 +179,7 @@ export class FindParkingMapPage {
                             }).then(marker => {
                               marker.on(GoogleMapsEvent.MARKER_CLICK)
                                 .subscribe(() => {
-                                  this.alertShowParkingInfo(coord.id);
+                                  this.alertShowParkingInfo(coord.ID);
                                 });
                             });
                           }
